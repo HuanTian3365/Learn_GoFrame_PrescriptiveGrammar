@@ -18,11 +18,50 @@ func init() {
 }
 
 func (s *sProduct) List(ctx context.Context, req *model.ProductListReq) (res *model.ProductListRes, err error) {
-	res = &model.ProductListRes{}
-	err = dao.ShopProduct.Ctx(ctx).Scan(&res.Items)
+	var items []*model.ProductListModel
+	col := dao.ShopProduct.Columns()
+	mod := dao.ShopProduct.Ctx(ctx)
+	total := 0
+
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+	if req.PageSize <= 0 {
+		req.PageSize = 10
+	}
+
+	// 产品码
+	if req.ProductCode != "" {
+		mod = mod.Where(col.ProductCode, req.ProductCode)
+	}
+
+	// 产品名模糊
+	if req.ProductName != "" {
+		mod = mod.WhereLike(col.ProductName, "%"+req.ProductName+"%")
+	}
+
+	// 按状态
+	if req.Status != nil {
+		mod = mod.Where(col.Status, req.Status)
+	}
+
+	err = mod.Fields(
+		dao.ShopProduct.Columns().Id,
+		dao.ShopProduct.Columns().ProductName,
+		dao.ShopProduct.Columns().ProductCode,
+		dao.ShopProduct.Columns().Price,
+		dao.ShopProduct.Columns().Status,
+	).Page(req.Page, req.PageSize).
+		OrderDesc(col.Id).ScanAndCount(&items, &total, false)
 
 	if err != nil {
 		return nil, err
 	}
-	return res, nil
+
+	return &model.ProductListRes{
+		Items:    items,
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Total:    total,
+	}, nil
 }
