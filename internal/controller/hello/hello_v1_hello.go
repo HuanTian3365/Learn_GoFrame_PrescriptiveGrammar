@@ -2,6 +2,7 @@ package hello
 
 import (
 	"context"
+	v1 "goframe_prescriptivegrammar/api/hello/v1"
 
 	"github.com/gogf/gf/v2/frame/g"
 )

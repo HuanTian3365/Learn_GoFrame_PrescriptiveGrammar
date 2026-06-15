@@ -2,14 +2,14 @@
 // Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
 // =================================================================================
 
-package hello
+package health
 
 import (
 	"context"
 
-	"goframe_prescriptivegrammar/api/hello/v1"
+	"goframe_prescriptivegrammar/api/health/v1"
 )
 
-type IHelloV1 interface {
-	Hello(ctx context.Context, req *v1.HelloReq) (res *v1.HelloRes, err error)
+type IHealthV1 interface {
+	Health(ctx context.Context, req *v1.HealthReq) (res *v1.HealthRes, err error)
 }

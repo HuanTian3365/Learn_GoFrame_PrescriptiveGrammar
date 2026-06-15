@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"goframe_prescriptivegrammar/internal/controller/health"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -22,6 +23,11 @@ var (
 				group.Bind(
 					hello.NewV1(),
 				)
+				group.Group("/api/v1", func(group *ghttp.RouterGroup) {
+					group.Bind(
+						health.NewV1(),
+					)
+				})
 			})
 			s.Run()
 			return nil
