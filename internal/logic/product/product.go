@@ -73,8 +73,6 @@ func (s *sProduct) View(ctx context.Context, req *model.ProductViewReq) (res *mo
 		return nil, gerror.New("ID不能为空")
 	}
 
-	res = &model.ProductViewRes{}
-
 	mod := dao.ShopProduct.Ctx(ctx).Where(dao.ShopProduct.Columns().Id, *req.Id)
 	if b, _ := mod.Exist(); b != true {
 		return nil, gerror.New("商品不存在")
