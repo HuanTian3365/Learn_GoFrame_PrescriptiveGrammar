@@ -5,6 +5,8 @@ import (
 	"goframe_prescriptivegrammar/internal/dao"
 	"goframe_prescriptivegrammar/internal/model"
 	"goframe_prescriptivegrammar/internal/service"
+
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 type sProduct struct{}
@@ -42,7 +44,7 @@ func (s *sProduct) List(ctx context.Context, req *model.ProductListReq) (res *mo
 
 	// 按状态
 	if req.Status != nil {
-		mod = mod.Where(col.Status, req.Status)
+		mod = mod.Where(col.Status, *req.Status)
 	}
 
 	err = mod.Fields(
@@ -64,4 +66,25 @@ func (s *sProduct) List(ctx context.Context, req *model.ProductListReq) (res *mo
 		PageSize: req.PageSize,
 		Total:    total,
 	}, nil
+}
+
+func (s *sProduct) View(ctx context.Context, req *model.ProductViewReq) (res *model.ProductViewRes, err error) {
+	if req.Id == nil {
+		return nil, gerror.New("ID不能为空")
+	}
+
+	res = &model.ProductViewRes{}
+
+	mod := dao.ShopProduct.Ctx(ctx).Where(dao.ShopProduct.Columns().Id, *req.Id)
+	if b, _ := mod.Exist(); b != true {
+		return nil, gerror.New("商品不存在")
+	}
+
+	err = mod.Scan(res)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }

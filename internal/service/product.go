@@ -7,6 +7,7 @@ import (
 
 type IProduct interface {
 	List(ctx context.Context, req *model.ProductListReq) (res *model.ProductListRes, err error)
+	View(ctx context.Context, req *model.ProductViewReq) (res *model.ProductViewRes, err error)
 }
 
 var product IProduct

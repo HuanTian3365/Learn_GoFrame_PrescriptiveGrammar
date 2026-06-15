@@ -14,3 +14,12 @@ type ProductListReq struct {
 type ProductListRes struct {
 	*model.ProductListRes
 }
+
+type ProductViewReq struct {
+	g.Meta `path:"/product/view" method:"get"`
+	model.ProductViewReq
+}
+
+type ProductViewRes struct {
+	*model.ProductViewRes
+}

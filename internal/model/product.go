@@ -22,3 +22,10 @@ type ProductListRes struct {
 	PageSize int                 `json:"pageSize"`
 	Total    int                 `json:"total"`
 }
+
+type ProductViewReq struct {
+	Id *int64 `json:"id"`
+}
+type ProductViewRes struct {
+	ProductListModel
+}
