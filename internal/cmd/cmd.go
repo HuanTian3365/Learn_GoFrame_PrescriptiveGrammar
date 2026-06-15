@@ -2,13 +2,10 @@ package cmd
 
 import (
 	"context"
-	"goframe_prescriptivegrammar/internal/controller/health"
+	"goframe_prescriptivegrammar/internal/router"
 
 	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-
-	"goframe_prescriptivegrammar/internal/controller/hello"
 )
 
 var (
@@ -18,17 +15,7 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
-			s.Group("/", func(group *ghttp.RouterGroup) {
-				group.Middleware(ghttp.MiddlewareHandlerResponse)
-				group.Bind(
-					hello.NewV1(),
-				)
-				group.Group("/api/v1", func(group *ghttp.RouterGroup) {
-					group.Bind(
-						health.NewV1(),
-					)
-				})
-			})
+			router.InitRouter(s)
 			s.Run()
 			return nil
 		},
