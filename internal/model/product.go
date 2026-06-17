@@ -8,6 +8,7 @@ type ProductListModel struct {
 	Status      int     `json:"status"`
 }
 
+// ==================== 列表 ====================
 type ProductListReq struct {
 	Page        int    `json:"page" d:"1"`
 	PageSize    int    `json:"pageSize" d:"10"`
@@ -23,9 +24,20 @@ type ProductListRes struct {
 	Total    int                 `json:"total"`
 }
 
+// ==================== 详情 ====================
 type ProductViewReq struct {
 	Id *int64 `json:"id"`
 }
 type ProductViewRes struct {
 	ProductListModel
 }
+
+// ==================== 编辑 ====================
+type ProductEditReq struct {
+	Id          *int64  `json:"id"`
+	ProductName string  `json:"productName"`
+	ProductCode string  `json:"productCode"`
+	Price       float64 `json:"price"`
+	Status      int     `json:"status"`
+}
+type ProductEditRes struct{}

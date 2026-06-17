@@ -86,3 +86,25 @@ func (s *sProduct) View(ctx context.Context, req *model.ProductViewReq) (res *mo
 
 	return res, nil
 }
+
+func (s *sProduct) Edit(ctx context.Context, req *model.ProductEditReq) (res *model.ProductEditRes, err error) {
+	if req.ProductCode == "" {
+		return nil, gerror.New("请输入productCode")
+	}
+	var product = &model.ProductListModel{}
+	err = dao.ShopProduct.Ctx(ctx).Where(dao.ShopProduct.Columns().ProductCode, req.ProductCode).Scan(product)
+	if err != nil {
+		return nil, err
+	}
+
+	// 新增
+	if req.Id == nil || *req.Id == 0 {
+		if product == nil {
+
+		}
+
+	}
+
+	// 编辑
+	return nil, nil
+}
